@@ -9,3 +9,8 @@ router.post("/login" , registerController.loginController);
 
 // forgot password
 router.post("/forgotPassword" , registerController.forgotpasswordController);
+
+// private route
+router.get("/")
+
+module.exports = router;

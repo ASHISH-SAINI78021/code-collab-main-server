@@ -2,11 +2,6 @@ const mongoose = require("mongoose");
 const {Schema} = mongoose;
 
 const userSchema = new Schema({
-    name : {
-        type : String ,
-        required : true ,
-        trim : true
-    } ,
     email : {
         type : String ,
         unique : true
@@ -19,11 +14,7 @@ const userSchema = new Schema({
     answer : {
         type : String ,
         required : true
-    } ,
-    role : {
-        type : Number ,
-        default : 0
-    }
+    } 
 } , {timestamps : true});
 
 const User = mongoose.model("User" , userSchema);

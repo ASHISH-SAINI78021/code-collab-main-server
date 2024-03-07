@@ -5,13 +5,7 @@ const JWT = require("jsonwebtoken");
 
 module.exports.registerController = async(req , res)=> {
     try {
-        const {name , email , password , answer} = req.body;
-        if (!name){
-            return res.send({
-                success : false ,
-                message : "Name field is required" 
-            })
-        }
+        const {email , password , answer} = req.body;
         if (!email){
             return res.send({
                 success : false ,
@@ -43,10 +37,10 @@ module.exports.registerController = async(req , res)=> {
         const hashedAnswer = await hashPassword(answer);
         const hashed = await hashPassword(password);
         const user = new User({
-            name , email , password : hashed , hashedAnswer
+            email , password : hashed , answer: hashedAnswer
         })
 
-        await user.save();
+        await user.save({ writeConcern: { w: 'majority' } });
         return res.send({
             success : true ,
             message : "registered successfuly"
@@ -106,9 +100,7 @@ module.exports.loginController = async(req , res)=> {
             success : true ,
             message : "Successfuly login" ,
             user : {
-                name : user.name ,
                 email : user.email ,
-                role : user.role
             } , 
             token
         })

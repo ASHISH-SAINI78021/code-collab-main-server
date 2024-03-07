@@ -5,6 +5,7 @@ const dotenv = require("dotenv").config();
 const morgan = require("morgan");
 const path = require("path");
 const cors = require("cors");
+const authRoute = require("./routes/authRoute.js");
 
 
 // self-built packages
@@ -16,11 +17,6 @@ const main = require("./config.js/db.js");
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname , "./code-collab/dist/")));
-
-app.use("*" , (req , res , next)=> {
-    res.sendFile(path.join(__dirname , "./client/code-collab/index.html"));
-})
 
 
 main()
@@ -37,6 +33,8 @@ main()
 app.get("/" , (req , res)=> {
     res.send({message : "Welcome to ecommerce app"});
 })
+
+app.use("/api/v1/auth" , authRoute);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT , ()=> {
